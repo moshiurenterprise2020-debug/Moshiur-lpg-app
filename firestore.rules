@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    // Owner must create users/{uid} with role: 'owner'. Add employees with role: 'employee'.
+    function member() {
+      return signedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create: if signedIn() && request.auth.uid == uid;
+      allow update: if signedIn() && request.auth.uid == uid;
+      match /transactions/{transactionId} {
+        allow read, create: if signedIn() && request.auth.uid == uid;
+        allow update, delete: if signedIn() && request.auth.uid == uid;
+      }
+    }
+  }
+}
