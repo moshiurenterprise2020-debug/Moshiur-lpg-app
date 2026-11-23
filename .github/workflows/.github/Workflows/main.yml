@@ -1,0 +1,45 @@
+name: Build Moshiur Enterprise APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Extract Android Source
+        run: |
+          mkdir android-source
+          unzip -o Moshiur_Enterprise_LPG_Android_Source_v1.zip -d android-source
+          find android-source -name gradlew -exec chmod +x {} \;
+
+      - name: Build APK
+        run: |
+          cd android-source
+          GRADLEW=$(find . -name gradlew -type f | head -n 1)
+          if [ -n "$GRADLEW" ]; then
+            cd "$(dirname "$GRADLEW")"
+            ./gradlew assembleDebug
+          else
+            echo "Gradle wrapper not found"
+            exit 1
+          fi
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Moshiur-Enterprise-APK
+          path: android-source/**/build/outputs/apk/debug/*.apk
