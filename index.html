@@ -6,24 +6,16 @@
 <title>মশিউর এন্টারপ্রাইজ LPG</title><link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header><h1>মশিউর এন্টারপ্রাইজ</h1><p>LPG হিসাব ব্যবস্থাপনা</p></header>
+<header><h1>মশিউর এন্টারপ্রাইজ</h1><p>LPG হিসাব অ্যাপ</p></header>
 <main>
-<section class="card">
-<h2>নতুন হিসাব</h2>
-<label>হিসাবের ধরন<select id="kind"><option value="sale">বিক্রি</option><option value="purchase">ক্রয়</option><option value="expense">খরচ</option><option value="collection">বাকি আদায়</option></select></label>
+<section class="card"><h2>নতুন হিসাব</h2>
+<label>ধরন<select id="type"><option value="বিক্রয়">বিক্রয়</option><option value="ক্রয়">ক্রয়</option><option value="খরচ">খরচ</option><option value="জমা">জমা</option></select></label>
 <label>বিবরণ<input id="note" placeholder="যেমন: ১২ কেজি বসুন্ধরা"></label>
-<div class="grid">
-<label>পরিমাণ<input id="qty" type="number" min="0" step="0.01" value="1"></label>
-<label>দর (৳)<input id="price" type="number" min="0" step="0.01" value="0"></label>
-</div>
-<button id="save">হিসাব সংরক্ষণ</button><p id="msg" aria-live="polite"></p>
+<label>টাকার পরিমাণ<input id="amount" type="number" min="0" step="0.01" placeholder="টাকা"></label>
+<button id="save">হিসাব সংরক্ষণ</button>
 </section>
-<section class="card">
-<div class="between"><h2>আজকের সারাংশ</h2><button class="secondary" id="refresh">রিফ্রেশ</button></div>
-<div class="grid stats"><div><small>বিক্রি</small><strong id="sales">৳০</strong></div><div><small>ক্রয়</small><strong id="purchases">৳০</strong></div><div><small>খরচ</small><strong id="expenses">৳০</strong></div><div><small>বাকি আদায়</small><strong id="collections">৳০</strong></div></div>
-</section>
-<section class="card"><h2>সাম্প্রতিক হিসাব</h2><div id="items"></div><button class="secondary" id="export">ব্যাকআপ ডাউনলোড</button></section>
-<p class="hint">এই প্রাথমিক সংস্করণে হিসাব এই ফোনে সংরক্ষিত হয়। অনলাইন মাল্টি-ডিভাইস ব্যবহার চালুর আগে Firebase Authentication, নিরাপদ Firestore rules ও Hosting সেটআপ করতে হবে।</p>
-</main>
-<script type="module" src="app.js"></script>
+<section class="card"><h2>আজকের হিসাব</h2><div id="totals"></div></section>
+<section class="card"><h2>সাম্প্রতিক লেনদেন</h2><div id="entries"></div><button id="backup" class="secondary">ব্যাকআপ ডাউনলোড</button></section>
+<p class="notice">সতর্কতা: এই প্রাথমিক সংস্করণে হিসাব শুধু এই ব্রাউজারের এই ফোনে থাকে। অনলাইন সিঙ্ক বা APK এখনো চালু হয়নি।</p>
+</main><script src="app.js"></script>
 </body></html>
